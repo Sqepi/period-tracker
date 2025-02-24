@@ -6,11 +6,12 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(process.cwd(), './src')
+      '@': path.resolve(__dirname, './src')
     }
   },
   base: './',
   build: {
     outDir: 'dist',
+    sourcemap: true
   }
 }) 
