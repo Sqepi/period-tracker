@@ -4,12 +4,12 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMont
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Lock } from "lucide-react";
 
 interface CalendarProps {
-  selectedDate: Date;
+  selectedDates: Date[];
   onDateSelect: (date: Date) => void;
   periodDays: Date[];
 }
 
-const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect, periodDays }) => {
+const Calendar: React.FC<CalendarProps> = ({ selectedDates, onDateSelect, periodDays }) => {
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
   const [showYearPicker, setShowYearPicker] = React.useState(false);
   
@@ -114,7 +114,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect, periodD
           </div>
         ))}
         {days.map((day, index) => {
-          const isSelected = format(selectedDate, "yyyy-MM-dd") === format(day, "yyyy-MM-dd");
+          const isSelected = selectedDates.some(
+            (selectedDate) => format(selectedDate, "yyyy-MM-dd") === format(day, "yyyy-MM-dd")
+          );
           const isPeriod = isPeriodDay(day);
           const isFuture = isFutureDate(day);
 

@@ -6,7 +6,7 @@ import { addDays } from 'date-fns';
 
 const App: React.FC = () => {
   const [periodDays, setPeriodDays] = useState<Date[]>([]);
-  const [averageCycleLength, setAverageCycleLength] = useState(28);
+  const [averageCycleLength] = useState(28);
   const [lastPeriodStart, setLastPeriodStart] = useState<Date | null>(null);
   const [nextPeriodPrediction, setNextPeriodPrediction] = useState<Date | null>(null);
   const [lutealPhase, setLutealPhase] = useState<Date | null>(null);
@@ -59,6 +59,7 @@ const App: React.FC = () => {
           <Calendar 
             selectedDates={periodDays}
             onDateSelect={handleDateSelect}
+            periodDays={periodDays}
           />
           <PeriodHistory periodDays={periodDays} />
         </div>

@@ -93,7 +93,7 @@ const Index = () => {
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-8">
             <Calendar
-              selectedDate={selectedDate}
+              selectedDates={[selectedDate].filter(Boolean) as Date[]}
               onDateSelect={handleDateSelect}
               periodDays={periodDays}
             />
