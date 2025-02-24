@@ -3,6 +3,7 @@ import Calendar from './components/PeriodTracker/Calendar';
 import Statistics from './components/PeriodTracker/Statistics';
 import PeriodHistory from './components/PeriodTracker/PeriodHistory';
 import { addDays } from 'date-fns';
+import SymptomLogger from './components/PeriodTracker/SymptomLogger';
 
 const App: React.FC = () => {
   const [periodDays, setPeriodDays] = useState<Date[]>([]);
@@ -11,8 +12,11 @@ const App: React.FC = () => {
   const [nextPeriodPrediction, setNextPeriodPrediction] = useState<Date | null>(null);
   const [lutealPhase, setLutealPhase] = useState<Date | null>(null);
   const [ovulationPhase, setOvulationPhase] = useState<Date | null>(null);
+  const [selectedSymptoms, setSelectedSymptoms] = useState<{ [date: string]: string[] }>({});
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateSelect = (date: Date) => {
+    setSelectedDate(date);
     const isSelected = periodDays.some(
       d => d.toISOString().split('T')[0] === date.toISOString().split('T')[0]
     );
@@ -40,6 +44,20 @@ const App: React.FC = () => {
     }
   };
 
+  const handleSymptomToggle = (symptomId: string, dateStr: string) => {
+    setSelectedSymptoms((prev) => {
+      const dateSymptoms = prev[dateStr] || [];
+      const newDateSymptoms = dateSymptoms.includes(symptomId)
+        ? dateSymptoms.filter((id) => id !== symptomId)
+        : [...dateSymptoms, symptomId];
+
+      return {
+        ...prev,
+        [dateStr]: newDateSymptoms,
+      };
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-100 to-purple-100 p-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -56,12 +74,19 @@ const App: React.FC = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Calendar 
-            selectedDates={periodDays}
-            onDateSelect={handleDateSelect}
-            periodDays={periodDays}
+          <div>
+            <Calendar 
+              selectedDates={periodDays}
+              onDateSelect={handleDateSelect}
+              periodDays={periodDays}
+            />
+            <PeriodHistory periodDays={periodDays} />
+          </div>
+          <SymptomLogger
+            selectedDate={selectedDate}
+            selectedSymptoms={selectedSymptoms}
+            onSymptomToggle={handleSymptomToggle}
           />
-          <PeriodHistory periodDays={periodDays} />
         </div>
       </div>
     </div>
