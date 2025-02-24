@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "../ui/card";
 import { Calendar, Clock, TrendingUp, Moon, Sun } from "lucide-react";
-import { format, addDays } from "date-fns";
+import { format } from "date-fns";
 
 interface StatisticsProps {
   averageCycleLength: number;

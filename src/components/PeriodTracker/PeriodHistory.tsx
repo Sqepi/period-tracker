@@ -10,7 +10,6 @@ interface PeriodHistoryProps {
 const PeriodHistory: React.FC<PeriodHistoryProps> = ({ periodDays }) => {
   // Grupojmë ditët e periodave sipas cikleve
   const cycles = periodDays.reduce((acc: { start: Date; end: Date; length: number }[], day) => {
-    const dateStr = format(day, "yyyy-MM-dd");
     
     // Kontrollojmë nëse kjo ditë është pjesë e ciklit ekzistues
     const existingCycle = acc.find(cycle => {
